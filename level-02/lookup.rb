@@ -16,38 +16,42 @@ dns_raw = File.readlines("zone.txt")
 
 
 def parse_dns(dns_raw)
-	#craeting a list of hashes
-	k=[]
-	k[0]={}
-	k[1]={}
-	dns_raw.each do |i|
+	#creating a list of hashes
+	record_list=[]
+	#index 0 for class "A" records
+	record_list[0]={}
+	#index 1 for class "CNAME" records
+	record_list[1]={}
+	dns_raw.each do |record|
 		 
-		i=i.split(", ")
-		if(i[0]=='A')
-			k[0].merge!({i[1]=>i[2].rstrip})	#merging into the hash 
+		record=record.strip.split(", ")
+		if(record[0]=='A')
+			#inserting record into the hash containg class "A" records 
+			record_list[0][record[1]]=record[2].rstrip
 			
 		else
-			k[1].merge!({i[1]=>i[2].rstrip})
+			#inserting record into the hash containg class "CNAME" records
+			record_list[1][record[1]]=record[2].rstrip
 	
 		end
 	end
-	 k
+	record_list
 end
-def resolve(dns_rec, lookup_chain, domain)
-	temp=domain
-	r=dns_rec[0]
-	#first checking, if the given domain present is a A type record 
-		 if r.has_key?(domain)	
-			temp=r[domain]
-			lookup_chain.push(temp)		
+def resolve(dns_records, lookup_chain, domain)
+	
+	record_hash=dns_records[0]
+	#first checking, if the given domain present is a class A type record 
+		 if record_hash.has_key?(domain)	
+			
+			lookup_chain.push(record_hash[domain])		
 			return lookup_chain
 		else
-		r=dns_rec[1]
+		record_hash=dns_records[1]
 		#checking in the CNAME record
-			if r.has_key?(domain)	
-				temp=r[domain]
-				lookup_chain.push(temp)
-				lookup_chain=resolve(dns_rec, lookup_chain, temp)
+			if record_hash.has_key?(domain)	
+				
+				lookup_chain.push(record_hash[domain])
+				lookup_chain=resolve(dns_records, lookup_chain,record_hash[domain])
 		 	else
 			      puts "Error: record not found for #{domain}"
 				lookup_chain
