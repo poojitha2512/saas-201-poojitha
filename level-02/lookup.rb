@@ -16,26 +16,26 @@ dns_raw = File.readlines("zone.txt")
 
 
 def parse_dns(dns_raw)
-	#creating a list of hashes
-	record_list=[]
+	#creating a array of hashes
+	record_array=[]
 	#index 0 for class "A" records
-	record_list[0]={}
+	record_array[0]={}
 	#index 1 for class "CNAME" records
-	record_list[1]={}
+	record_array[1]={}
 	dns_raw.each do |record|
 		 
 		record=record.strip.split(", ")
 		if(record[0]=='A')
 			#inserting record into the hash containg class "A" records 
-			record_list[0][record[1]]=record[2].rstrip
+			record_array[0][record[1]]=record[2].rstrip
 			
 		else
 			#inserting record into the hash containg class "CNAME" records
-			record_list[1][record[1]]=record[2].rstrip
+			record_array[1][record[1]]=record[2].rstrip
 	
 		end
 	end
-	record_list
+	record_array
 end
 def resolve(dns_records, lookup_chain, domain)
 	
