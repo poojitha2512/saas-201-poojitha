@@ -15,14 +15,14 @@ def parse_dns(dns_raw)
   #creating a hashe of hashes
 
   dns_records = { :a => {}, :cname => {} }
-  dns_raw.each do |record|
-    record = record.strip.split(", ")
-    if (record[0] == "A")
+  dns_raw.each do |dns_record|
+    dns_record = dns_record.strip.split(", ")
+    if (dns_record[0] == "A")
       #inserting record into the hash containg class "A" records
-      dns_records[:a][record[1]] = record[2].rstrip
+      dns_records[:a][dns_record[1]] = dns_record[2].rstrip
     else
       #inserting record into the hash containg class "CNAME" records
-      dns_records[:cname][record[1]] = record[2].rstrip
+      dns_records[:cname][dns_record[1]] = dns_record[2].rstrip
     end
   end
   dns_records
