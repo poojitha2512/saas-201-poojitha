@@ -23,14 +23,14 @@ class Todo
     display_date = @due_date.to_s
     display_text = @text
     if @completed
-      display_status = "[X] "
+      display_status = "[X]"
     else
-      display_status = "[ ] "
+      display_status = "[ ]"
     end
     if @due_date == Date.today
-      display_status + display_text
+      "#{display_status} #{display_text}"
     else
-      display_status + display_text + " " + display_date
+      "#{display_status} #{display_text} #{display_date}"
     end
   end
 
