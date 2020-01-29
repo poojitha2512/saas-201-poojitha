@@ -8,22 +8,29 @@ class Todo
   end
 
   def overdue?
-    (@due_date < Date.today) ? true : false
+    @due_date < Date.today
   end
 
   def due_today?
-    (@due_date == Date.today) ? true : false
+    @due_date == Date.today
   end
 
   def due_later?
-    (@due_date > Date.today) ? true : false
+    @due_date > Date.today
   end
 
   def to_displayable_string
-    if @due_date == Date.today
-      (@completed) ? "[X] " + @text : "[ ] " + @text
+    display_date = @due_date.to_s
+    display_text = @text
+    if @completed
+      display_status = "[X] "
     else
-      (@completed) ? "[X] " + @text + " " + @due_date.to_s : "[ ] " + @text + " " + @due_date.to_s
+      display_status = "[ ] "
+    end
+    if @due_date == Date.today
+      display_status + display_text
+    else
+      display_status + display_text + " " + display_date
     end
   end
 
