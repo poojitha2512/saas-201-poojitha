@@ -16,7 +16,6 @@ def get_new_todo
 end
 
 connect_db!
-#Todo.delete_all
 h = get_new_todo
 if h
   new_todo = Todo.add_task(h)

@@ -8,10 +8,6 @@ class Todo < ActiveRecord::Base
     "#{id}. #{display_status} #{todo_text} #{display_date}"
   end
 
-  def self.to_displayable_list
-    all.map { |todo| todo.to_displayable_string }
-  end
-
   def self.show_list
     puts "My Todo-list\n\n"
 
